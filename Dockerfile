@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM nvidia/cuda:12.3.0-runtime-ubuntu22.04
+FROM nvidia/cuda:12.1.0-runtime-ubuntu20.04
 
 EXPOSE 7865
 
@@ -42,7 +42,7 @@ RUN update-alternatives --set python3 /usr/bin/python3.9
 
 RUN python3 -m pip install --upgrade pip==24.0
 RUN python3 -m pip install torch==2.5.0 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
+RUN python3 -m pip install --no-cache-dir -r requirements/main.txt
 
 # 모델 다운로드 (이전과 동일)
 RUN aria2c --console-log-level=error -c -x 16 -s 16 -k 1M https://huggingface.co/lj1995/VoiceConversionWebUI/resolve/main/pretrained_v2/D40k.pth -d assets/pretrained_v2/ -o D40k.pth

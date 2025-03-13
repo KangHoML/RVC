@@ -1,19 +1,18 @@
-version: "3.8"
 services:
   rvc:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: rvc:latest
-    container_name: voice2
+    container_name: rvc
     stdin_open: true
     tty: true
     command: /bin/bash
     shm_size: '8gb'
     volumes:
       - .:/app
-      # - ./weights:/app/assets/weights
-      # - ./opt:/app/opt
-      # - ./dataset:/app/dataset # you can use this folder in order to provide your dataset for model training
     ports:
-      - 8080:7865
+      - 7865:7865
     deploy:
       resources:
         reservations:
