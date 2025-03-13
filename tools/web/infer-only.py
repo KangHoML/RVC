@@ -6,6 +6,7 @@ import os
 
 # Gradio 웹 인터페이스 라이브러리 가져오기
 import gradio as gr
+
 # 환경 변수 로드를 위한 라이브러리 가져오기
 from dotenv import load_dotenv
 
@@ -67,7 +68,7 @@ with app:
             )
             # 모델 선택을 위한 드롭다운 메뉴
             sid = gr.Dropdown(label=i18n("Inferencing voice"), choices=sorted(names))
-            
+
             # 화자/가수 ID 선택을 위한 슬라이더 (기본적으로 숨겨져 있음)
             with gr.Column():
                 spk_item = gr.Slider(
@@ -81,17 +82,17 @@ with app:
                 )
             # 모델 변경 시 화자/가수 ID 정보 갱신
             sid.change(fn=vc.get_vc, inputs=[sid], outputs=[spk_item])
-            
+
             # 음조 변환 설명 텍스트
             gr.Markdown(
                 value=i18n(
                     "Transpose (integer, number of semitones, raise by an octave: 12, lower by an octave: -12)"
                 )
             )
-            
+
             # 오디오 파일 업로드 입력
             vc_input3 = gr.Audio(label="Upload audio (length less than 90 seconds)")
-            
+
             # 음조 변환 값 입력
             vc_transform0 = gr.Number(
                 label=i18n(
@@ -99,7 +100,7 @@ with app:
                 ),
                 value=0,
             )
-            
+
             # 피치 추출 알고리즘 선택 라디오 버튼
             f0method0 = gr.Radio(
                 label=i18n(
@@ -109,7 +110,7 @@ with app:
                 value="pm",
                 interactive=True,
             )
-            
+
             # 피치 필터링 반경 설정 슬라이더
             filter_radius0 = gr.Slider(
                 minimum=0,
@@ -121,7 +122,7 @@ with app:
                 step=1,
                 interactive=True,
             )
-            
+
             # 특성 인덱스 파일 경로 입력을 위한 텍스트 박스 (숨겨져 있음)
             with gr.Column():
                 file_index1 = gr.Textbox(
@@ -132,14 +133,14 @@ with app:
                     interactive=False,
                     visible=False,
                 )
-            
+
             # 자동 탐지된 인덱스 파일 선택을 위한 드롭다운
             file_index2 = gr.Dropdown(
                 label=i18n("Auto-detect index path and select from the dropdown"),
                 choices=sorted(index_paths),
                 interactive=True,
             )
-            
+
             # 특성 검색 비율 설정 슬라이더
             index_rate1 = gr.Slider(
                 minimum=0,
@@ -148,7 +149,7 @@ with app:
                 value=0.88,
                 interactive=True,
             )
-            
+
             # 출력 오디오 리샘플링 설정 슬라이더
             resample_sr0 = gr.Slider(
                 minimum=0,
@@ -160,7 +161,7 @@ with app:
                 step=1,
                 interactive=True,
             )
-            
+
             # 볼륨 스케일링 비율 설정 슬라이더
             rms_mix_rate0 = gr.Slider(
                 minimum=0,
@@ -171,7 +172,7 @@ with app:
                 value=1,
                 interactive=True,
             )
-            
+
             # 무성 자음 및 숨소리 보호 설정 슬라이더
             protect0 = gr.Slider(
                 minimum=0,
@@ -183,27 +184,27 @@ with app:
                 step=0.01,
                 interactive=True,
             )
-            
+
             # F0 곡선 파일 업로드 입력
             f0_file = gr.File(
                 label=i18n(
                     "F0 curve file (optional). One pitch per line. Replaces the default F0 and pitch modulation"
                 )
             )
-            
+
             # 음성 변환 실행 버튼
             but0 = gr.Button(i18n("Convert"), variant="primary")
-            
+
             # 출력 정보 표시를 위한 텍스트 박스
             vc_output1 = gr.Textbox(label=i18n("Output information"))
-            
+
             # 변환된 오디오 출력
             vc_output2 = gr.Audio(
                 label=i18n(
                     "Export audio (click on the three dots in the lower right corner to download)"
                 )
             )
-            
+
             # 변환 버튼 클릭 시 실행할 함수 및 입출력 연결
             but0.click(
                 vc.vc_single,  # 호출할 함수

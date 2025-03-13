@@ -24,7 +24,9 @@ sys.path.append(now_dir)
 bh, ah = signal.butter(N=5, Wn=48, btype="high", fs=16000)
 
 
-def change_rms(data1, sr1, data2, sr2, rate):  # data1은 입력 오디오, data2는 출력 오디오, rate는 data2의 비율
+def change_rms(
+    data1, sr1, data2, sr2, rate
+):  # data1은 입력 오디오, data2는 출력 오디오, rate는 data2의 비율
     # print(data1.max(),data2.max())
     # 각 오디오의 RMS(Root Mean Square) 값 계산 (반초마다 하나의 값)
     rms1 = librosa.feature.rms(
@@ -220,11 +222,7 @@ class Pipeline(object):
         f0_file=None,
     ):
         # 인덱스 파일 로드 (존재하는 경우)
-        if (
-            file_index != ""
-            and os.path.exists(file_index)
-            and index_rate != 0
-        ):
+        if file_index != "" and os.path.exists(file_index) and index_rate != 0:
             try:
                 index = faiss.read_index(file_index)
                 big_npy = index.reconstruct_n(0, index.ntotal)
